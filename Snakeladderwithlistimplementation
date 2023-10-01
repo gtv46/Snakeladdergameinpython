@@ -1,0 +1,19 @@
+import random
+
+# Define the game board with snakes and ladders
+board = {
+    2: 38, 4: 14, 9: 31, 16: 6, 21: 42,
+    28: 84, 36: 44, 47: 26, 49: 11, 51: 67,
+    62: 19, 64: 60, 71: 91, 80: 100, 87: 24,
+}
+
+# Initialize player positions
+players = {'Player 1': 0, 'Player 2': 0}
+
+def roll_dice():
+    return random.randint(1, 6)
+
+def move_player(player, steps):
+    players[player] += steps
+    if players[player] in board:
+        print(f"{player} landed on a snake/ladder! {player} moves to {board[
