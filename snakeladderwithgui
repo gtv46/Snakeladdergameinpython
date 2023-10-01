@@ -1,0 +1,60 @@
+import random
+
+# Define the game board with snakes and ladders
+board = {
+    2: 38, 4: 14, 9: 31, 16: 6, 21: 42,
+    28: 84, 36: 44, 47: 26, 49: 11, 51: 67,
+    62: 19, 64: 60, 71: 91, 80: 100, 87: 24,
+}
+
+# Function to create a graphical representation of the game board
+def display_board(players):
+    for row in range(10, 0, -1):
+        for col in range(1, 11):
+            position = col + (row - 1) * 10
+            if position in board:
+                print(f'{board[position]:<4}', end='')
+            else:
+                print(f'{position:<4}', end='')
+
+            for player, player_position in players.items():
+                if player_position == position:
+                    print(f'{player[0]}', end=' ')
+                else:
+                    print(' ', end=' ')
+        print()
+
+# Initialize player positions with custom names
+num_players = int(input("Enter the number of players: "))
+players = {}
+for i in range(1, num_players + 1):
+    player_name = input(f"Enter Player {i}'s name: ")
+    players[player_name] = 0
+
+def roll_dice():
+    return random.randint(1, 6)
+
+def move_player(player, steps):
+    players[player] += steps
+    if players[player] in board:
+        print(f"{player} landed on a snake/ladder! {player} moves to {board[players[player]]}.")
+        players[player] = board[players[player]]
+
+def main():
+    print("Welcome to Snake and Ladder Game!")
+
+    while True:
+        for player in players:
+            input(f"{player}, press Enter to roll the dice...")
+            dice = roll_dice()
+            print(f"{player} rolled a {dice}.")
+            move_player(player, dice)
+            print(f"{player} is now at position {players[player]}.\n")
+            display_board(players)
+
+            if players[player] >= 100:
+                print(f"Congratulations! {player} wins!")
+                return
+
+if __name__ == "__main__":
+    main()
